@@ -1,0 +1,8 @@
+Total number of students: 2
+Number of students passed: 2
+Number of students failed: 0
+Percentage of students passed: 100%
+Percentage of students failed: 0%
+Average score: 98.5
+Highest score: 99
+Lowest score: 98
