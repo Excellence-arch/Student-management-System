@@ -192,13 +192,12 @@
 
 
 
-#include <limits> // Required for std::numeric_limits
-#include "StudentList.h" // Include the StudentList class definition
+#include <limits>
+#include "StudentList.hpp" 
 
 int main() {
     StudentList studentList;
 
-    // Attempt to load existing student data
     if (studentList.loadFromFile("students.txt")) {
         std::cout << "Loaded existing student data from students.txt." << std::endl;
     } else {
@@ -219,7 +218,7 @@ int main() {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             continue;
         }
-           // Consume the newline character left in the buffer after reading 'choice'
+        
            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
 
            switch (choice) {
@@ -237,7 +236,6 @@ int main() {
                }
                case 3:
                    studentList.generateReport("result.txt");
-                   // The generateReport method in StudentList.cpp already prints a success message.
                    // std::cout << "Student report generated and saved to result.txt." << std::endl; 
                    break;
                case 4:

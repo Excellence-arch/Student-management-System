@@ -1,5 +1,5 @@
-#include "StudentList.h"
-#include "Student.h" // Though included in StudentList.h, good practice for .cpp
+#include "StudentList.hpp"
+#include "Student.hpp" // Though included in StudentList.h, good practice for .cpp
 #include <vector>
 #include <string>
 #include <fstream>
@@ -12,6 +12,7 @@
 void StudentList::addStudent(const Student& student) {
     students.push_back(student);
 }
+StudentList::StudentList(){};
 
 // Method to save the student list to a file
 bool StudentList::saveToFile(const std::string& filename) {
@@ -21,15 +22,18 @@ bool StudentList::saveToFile(const std::string& filename) {
         return false;
     }
 
-    for (const auto& student : students) {
-        outFile << student.getName() << " " << student.getScore() << std::endl;
+    for(long unsigned int i = 0; i < students.size(); i++) {
+        outFile << students[i].getName() << " " << students[i].getScore() << std::endl;
+
     }
+    // for (const auto& student : students) {
+    //     outFile << student.getName() << " " << student.getScore() << std::endl;
+    // }
 
     outFile.close();
     return true;
 }
 
-// Method to load the student list from a file
 bool StudentList::loadFromFile(const std::string& filename) {
     std::ifstream inFile(filename);
     if (!inFile.is_open()) {
@@ -44,7 +48,7 @@ bool StudentList::loadFromFile(const std::string& filename) {
         students.emplace_back(name, score);
     }
 
-    if (inFile.bad()) { // Check for read errors
+    if (inFile.fail()) { 
         std::cerr << "Error reading from file " << filename << "." << std::endl;
         inFile.close();
         return false;
@@ -54,7 +58,6 @@ bool StudentList::loadFromFile(const std::string& filename) {
     return true;
 }
 
-// Method to calculate the average score of all students
 double StudentList::calculateAverageScore() const {
     if (students.empty()) {
         return 0.0;
@@ -66,7 +69,6 @@ double StudentList::calculateAverageScore() const {
     return totalScore / students.size();
 }
 
-// Method to generate a report and save it to a file
 void StudentList::generateReport(const std::string& outputFilename) {
     std::ofstream reportFile(outputFilename);
     if (!reportFile.is_open()) {
@@ -125,26 +127,23 @@ void StudentList::generateReport(const std::string& outputFilename) {
     std::cout << "Report generated and saved to " << outputFilename << std::endl;
 }
 
-// Method to interactively collect student data from the user
 void StudentList::collectStudentDataInteractively() {
     int numStudents;
     std::cout << "Enter the number of students (1-50): ";
     std::cin >> numStudents;
 
-    // Input validation for number of students
     while (std::cin.fail() || numStudents < 1 || numStudents > 50) {
         std::cout << "Invalid input. Please enter a number between 1 and 50: ";
         std::cin.clear(); // Clear error flags
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
         std::cin >> numStudents;
     }
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Consume the newline character after reading numStudents
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
 
     for (int i = 0; i < numStudents; ++i) {
         std::string name;
         int score;
 
-        // Prompt for name
         std::cout << "Enter name for student " << (i + 1) << ": ";
         std::getline(std::cin, name);
         while (name.empty()) {
@@ -152,7 +151,6 @@ void StudentList::collectStudentDataInteractively() {
             std::getline(std::cin, name);
         }
 
-        // Prompt for score
         std::cout << "Enter score for " << name << " (0-100): ";
         std::cin >> score;
         while (std::cin.fail() || score < 0 || score > 100) {
@@ -161,7 +159,7 @@ void StudentList::collectStudentDataInteractively() {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cin >> score;
         }
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Consume the newline character
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         addStudent(Student(name, score));
     }
@@ -173,7 +171,9 @@ void StudentList::collectStudentDataInteractively() {
     }
 }
 
-// Method to check if the student list is empty
 bool StudentList::isEmpty() const {
     return students.empty();
 }
+
+
+int main() {}
